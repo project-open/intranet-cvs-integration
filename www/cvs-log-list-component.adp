@@ -4,7 +4,7 @@
 	  <%= [export_form_vars return_url] %>
 	  <tr class="rowtitle">
 	    <th>&nbsp;</td>
-	    <th><%= [lang::message::lookup "" intranet-cvs_logs.Cvs_Logs_Project "Repository"] %></th>
+<!--	    <th>&nbsp;</th>	-->
 	    <th><%= [lang::message::lookup "" intranet-cvs_logs.Cvs_Logs_Filename "Filename"] %></th>
 	    <th><%= [lang::message::lookup "" intranet-cvs_logs.Cvs_Logs_Revision "Rev"] %></th>
 	    <th><%= [lang::message::lookup "" intranet-cvs_logs.Cvs_Logs_Author "Author"] %></th>
@@ -16,7 +16,7 @@
 	    <if @cvs_logs.rownum@ odd><tr class="roweven"></if>
 	    <else><tr class="rowodd"></else>
 		<td><input type=checkbox name=cvs_log.@cvs_line_id@></td>
-		<td>@cvs_logs.cvs_repo@</td>
+<!--		<td>@cvs_logs.cvs_repo@</td>	-->
 		<td>@cvs_logs.cvs_filename@</td>
 		<td>@cvs_logs.cvs_revision@</td>
 		<td>@cvs_logs.cvs_author@</td>
@@ -35,7 +35,7 @@
 </if>
 
 	<tr class="rowodd">
-	    <td colspan=2 align=right>
+	    <td colspan=10 align=right>
 		<select name=action>
 			<option value=del_cvs_logs><%= [lang::message::lookup "" intranet-cvs_logs.Delete_Cvs_Logs "Delete Cvs_Logs"] %></option>
 		</select>	
