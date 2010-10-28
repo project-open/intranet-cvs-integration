@@ -134,7 +134,7 @@ drop function inline_0 ();
 -- Create a Notes plugin for the ProjectViewPage.
 SELECT im_component_plugin__new (
 	null,				-- plugin_id
-	'acs_object',			-- object_type
+	'im_component_plugin',			-- object_type
 	now(),				-- creation_date
 	null,				-- creation_user
 	null,				-- creation_ip
@@ -157,7 +157,7 @@ where plugin_name = 'Project CVS Logs';
 -- Create a Notes plugin for the TicketViewPage
 SELECT im_component_plugin__new (
 	null,				-- plugin_id
-	'acs_object',			-- object_type
+	'im_component_plugin',			-- object_type
 	now(),				-- creation_date
 	null,				-- creation_user
 	null,				-- creation_ip
@@ -181,7 +181,7 @@ where plugin_name = 'Ticket CVS Logs';
 -- Create a Notes plugin for the TicketViewPage
 SELECT im_component_plugin__new (
 	null,				-- plugin_id
-	'acs_object',			-- object_type
+	'im_component_plugin',			-- object_type
 	now(),				-- creation_date
 	null,				-- creation_user
 	null,				-- creation_ip
@@ -198,3 +198,34 @@ SELECT im_component_plugin__new (
 update im_component_plugins 
 set title_tcl = 'lang::message::lookup "" intranet-cvs-integration.CVS_Logs "CVS Logs"'
 where plugin_name = 'Conf Item CVS Logs';
+
+
+
+
+----------------------------------------------------------------------
+-- Permission component for Conf Items
+----------------------------------------------------------------------
+
+-- Create a Notes plugin for the TicketViewPage
+SELECT im_component_plugin__new (
+	null,				-- plugin_id
+	'im_component_plugin',		-- object_type
+	now(),				-- creation_date
+	null,				-- creation_user
+	null,				-- creation_ip
+	null,				-- context_id
+	'Conf Item CVS Permissions',	-- plugin_name
+	'intranet-cvs-integration',	-- package_name
+	'right',			-- location
+	'/intranet-confdb/new',		-- page_url
+	null,				-- view_name
+	140,				-- sort_order
+	'im_cvs_conf_item_permissions_component -conf_item_id $conf_item_id'	-- component_tcl
+);
+
+SELECT acs_permission__grant_permission(
+	(select plugin_id from im_component_plugins where plugin_name = 'Conf Item CVS Permissions'),
+	(select group_id from groups where group_name = 'Employees'),
+	'read'
+);
+

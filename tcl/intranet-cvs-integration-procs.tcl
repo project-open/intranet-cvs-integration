@@ -32,3 +32,24 @@ ad_proc -public im_cvs_log_component {
     set result [ad_parse_template -params $params "/packages/intranet-cvs-integration/www/cvs-log-list-component"]
     return [string trim $result]
 }
+
+
+# Permission component, allowing the user to specify permissions
+# for a configuration item representing a CVS repository
+
+ad_proc -public im_cvs_conf_item_permissions_component {
+    {-return_url "" }
+    {-conf_item_id 0 }
+} {
+    Returns a HTML component to show permissions of a conf item representing a cvs project
+} {
+    if {"" == $return_url} { set return_url [im_url_with_query] }
+    set params [list \
+		    [list base_url "/intranet-cvs-integration/"] \
+		    [list conf_item_id $conf_item_id] \
+		    [list return_url $return_url] \
+    ]
+
+    set result [ad_parse_template -params $params "/packages/intranet-cvs-integration/www/cvs-permission-component"]
+    return [string trim $result]
+}
