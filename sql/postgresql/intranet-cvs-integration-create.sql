@@ -70,6 +70,135 @@ SELECT im_dynfield_attribute_new ('im_conf_item', 'cvs_path', 'CVS Path', 'textb
 
 
 
+
+
+
+
+-----------------------------------------------------------
+-- Create Group Type to represent CVS groups
+-----------------------------------------------------------
+
+select acs_object_type__create_type (
+	'im_cvs_group',
+	'CVS Group',
+	'CVS Groups',
+	'group',
+	'IM_CVS_GROUP_EXT',
+	'GROUP_ID',
+	'im_cvs_group',
+	'f',
+	null,
+	null
+);
+
+insert into acs_object_type_tables VALUES ('im_cvs_group', 'im_cvs_group_ext', 'group_id');
+
+
+-- Mark ticket_queue as a dynamically managed object type
+update acs_object_types 
+set dynamic_p='t' 
+where object_type = 'im_cvs_group';
+
+
+-- Copy group type_rels to queues
+insert into group_type_rels (group_rel_type_id, rel_type, group_type)
+select	nextval('t_acs_object_id_seq'), 
+	r.rel_type, 
+	'im_cvs_group'
+from	group_type_rels r
+where	r.group_type = 'group';
+
+
+create table im_cvs_group_ext (
+	group_id	integer
+			constraint im_cvs_group_ext_group_pk primary key
+			constraint im_cvs_group_ext_group_fk references groups (group_id)
+);
+
+
+select define_function_args('im_cvs_group__new','GROUP_ID,GROUP_NAME,EMAIL,URL,LAST_MODIFIED;now(),MODIFYING_IP,OBJECT_TYPE;im_cvs_group,CONTEXT_ID,CREATION_USER,CREATION_DATE;now(),CREATION_IP,JOIN_POLICY');
+
+create function im_cvs_group__new(INT4,VARCHAR,VARCHAR,VARCHAR,TIMESTAMPTZ,VARCHAR,VARCHAR,INT4,INT4,TIMESTAMPTZ,VARCHAR,VARCHAR)
+returns INT4 as '
+declare
+	p_GROUP_ID		alias for $1;
+	p_GROUP_NAME		alias for $2;
+	p_EMAIL			alias for $3;
+	p_URL			alias for $4;
+	p_LAST_MODIFIED		alias for $5;
+	p_MODIFYING_IP		alias for $6;
+
+	p_OBJECT_TYPE		alias for $7;
+	p_CONTEXT_ID		alias for $8;
+	p_CREATION_USER		alias for $9;
+	p_CREATION_DATE		alias for $10;
+	p_CREATION_IP		alias for $11;
+	p_JOIN_POLICY		alias for $12;
+
+	v_GROUP_ID 		IM_CVS_GROUP_EXT.GROUP_ID%TYPE;
+begin
+	v_GROUP_ID := acs_group__new (
+		p_group_id,p_OBJECT_TYPE,
+		p_CREATION_DATE,p_CREATION_USER,
+		p_CREATION_IP,p_EMAIL,
+		p_URL,p_GROUP_NAME,
+		p_JOIN_POLICY,p_CONTEXT_ID
+	);
+	insert into IM_CVS_GROUP_EXT (GROUP_ID) values (v_GROUP_ID);
+	return v_GROUP_ID;
+end;' language 'plpgsql';
+
+create function im_cvs_group__delete (INT4)
+returns integer as '
+declare
+	p_GROUP_ID	alias for $1;
+begin
+	perform acs_group__delete( p_GROUP_ID );
+	return 1;
+end;' language 'plpgsql';
+
+
+-- Create some groups for ]po[
+--
+create or replace function inline_0 ()
+returns integer as $body$
+declare
+	row			RECORD;
+	v_count			integer;
+BEGIN
+	FOR row IN
+			select 'readall' as group_name
+		UNION	select 'admin' as group_name
+		UNION	select 'cognovis' as group_name
+		UNION	select 'anon' as group_name
+		UNION	select 'cost_center' as group_name
+		UNION	select 'cost_audit' as group_name
+		UNION	select 'freelance' as group_name
+		UNION	select 'freelance_rfqs' as group_name
+		UNION	select 'reporting_dashboard' as group_name
+		UNION	select 'reporting_indicators' as group_name
+		UNION	select 'reporting_finance' as group_name
+		UNION	select 'reporting_cubes' as group_name
+		UNION	select 'reporting_timesheet' as group_name
+		UNION	select 'reporting_translation' as group_name
+		UNION	select 'trans_quality' as group_name
+	LOOP
+		select count(*) into v_count from groups where group_name = row.group_name;
+		IF v_count = 0 THEN 
+			PERFORM im_cvs_group__new(null, row.group_name, NULL, NULL, now(), NULL, 'im_cvs_group', null, 0, now(), '0.0.0.0', NULL); 
+		END IF;
+	END LOOP;
+
+	return 0;
+end; $body$ language 'plpgsql';
+select inline_0();
+drop function inline_0();
+
+
+
+
+
+
 -----------------------------------------------------------
 -- Menu for CVS Administration
 --
@@ -228,4 +357,5 @@ SELECT acs_permission__grant_permission(
 	(select group_id from groups where group_name = 'Employees'),
 	'read'
 );
+
 
