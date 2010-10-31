@@ -75,7 +75,12 @@ SELECT im_dynfield_attribute_new ('im_conf_item', 'cvs_path', 'CVS Path', 'textb
 
 
 -----------------------------------------------------------
--- Create Group Type to represent CVS groups
+-- Create a new Group Type to represent CVS groups
+--
+-- Implement a new group_type called "CVS group" to implement
+-- the management of the ]po[ CVS ACL repository.
+-- This works by defining the CVS ACL groups and their membership
+-- in ]po[. A Perl script will query these using the REST interface.
 -----------------------------------------------------------
 
 select acs_object_type__create_type (
@@ -92,7 +97,6 @@ select acs_object_type__create_type (
 );
 
 insert into acs_object_type_tables VALUES ('im_cvs_group', 'im_cvs_group_ext', 'group_id');
-
 
 -- Mark ticket_queue as a dynamically managed object type
 update acs_object_types 
@@ -169,19 +173,16 @@ BEGIN
 	FOR row IN
 			select 'readall' as group_name
 		UNION	select 'admin' as group_name
-		UNION	select 'cognovis' as group_name
 		UNION	select 'anon' as group_name
 		UNION	select 'cost_center' as group_name
 		UNION	select 'cost_audit' as group_name
 		UNION	select 'freelance' as group_name
 		UNION	select 'freelance_rfqs' as group_name
-		UNION	select 'reporting_dashboard' as group_name
-		UNION	select 'reporting_indicators' as group_name
 		UNION	select 'reporting_finance' as group_name
 		UNION	select 'reporting_cubes' as group_name
-		UNION	select 'reporting_timesheet' as group_name
 		UNION	select 'reporting_translation' as group_name
 		UNION	select 'trans_quality' as group_name
+		UNION	select 'cognovis' as group_name
 	LOOP
 		select count(*) into v_count from groups where group_name = row.group_name;
 		IF v_count = 0 THEN 
@@ -193,6 +194,33 @@ BEGIN
 end; $body$ language 'plpgsql';
 select inline_0();
 drop function inline_0();
+
+
+
+
+
+-- Create a Group Type portlet in the user's page
+SELECT im_component_plugin__new (
+	null,				-- plugin_id
+	'im_component_plugin',			-- object_type
+	now(),				-- creation_date
+	null,				-- creation_user
+	null,				-- creation_ip
+	null,				-- context_id
+	'CVS ACL Group Administration',	-- plugin_name
+	'intranet-cvs-integration',	-- package_name
+	'right',			-- location
+	'/intranet/users/view',		-- page_url
+	null,				-- view_name
+	30,				-- sort_order
+	'im_group_type_component -group_type im_cvs_group -user_id $user_id'	-- component_tcl
+);
+
+update im_component_plugins 
+set title_tcl = 'lang::message::lookup "" intranet-cvs-integration.CVS_ACL_Group_Admin "CVS ACL Group Administration"'
+where plugin_name = 'CVS ACL Group Administration';
+
+
 
 
 
