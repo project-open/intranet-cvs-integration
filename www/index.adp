@@ -11,7 +11,7 @@
 	<p>
 	This lists all currently defined version Version Control Repositories.<br>
 	For details, please see the 
-	<a href="http://www.project-open.org/documentation/page_intranet_cvs_integration_index">context help</a>.
+	<a href="http://www.project-open.org/en/package_intranet_cvs_integration">context help</a>.
 </td>
 </tr>
 </table>
