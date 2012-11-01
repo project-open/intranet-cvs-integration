@@ -4,13 +4,13 @@
 	  <%= [export_form_vars return_url] %>
 	  <tr class="rowtitle">
 	    <th>&nbsp;</td>
-	    <th><%= [lang::message::lookup "" intranet-cvs-logs.Cvs_Logs_Project "Repository"] %></th>
-	    <th><%= [lang::message::lookup "" intranet-cvs-logs.Cvs_Logs_Filename "Filename"] %></th>
-	    <th><%= [lang::message::lookup "" intranet-cvs-logs.Cvs_Logs_Revision "Rev"] %></th>
-	    <th><%= [lang::message::lookup "" intranet-cvs-logs.Cvs_Logs_Author "Author"] %></th>
-	    <th><%= [lang::message::lookup "" intranet-cvs-logs.Cvs_Logs_Add_Del "Add/Del"] %></th>
-	    <th><%= [lang::message::lookup "" intranet-cvs-logs.Cvs_Logs_Note "Note"] %></th>
-	    <th><%= [lang::message::lookup "" intranet-cvs-logs.Cvs_Logs_User "User"] %></th>
+	    <th><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Project "Repository"] %></th>
+	    <th><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Filename "Filename"] %></th>
+	    <th><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Revision "Rev"] %></th>
+	    <th><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Author "Author"] %></th>
+	    <th><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Add_Del "Add/Del"] %></th>
+	    <th><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Note "Note"] %></th>
+	    <th><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_User "User"] %></th>
 	  </tr>
 	  <multiple name="cvs_logs">
 	    <if @cvs_logs.rownum@ odd><tr class="roweven"></if>
@@ -29,7 +29,7 @@
 <if @cvs_logs:rowcount@ eq 0>
 	<tr class="rowodd">
 	    <td colspan=2>
-		<%= [lang::message::lookup "" intranet-cvs-logs.No_Cvs_Logs_Available "No Cvs_Logs Available"] %>
+		<%= [lang::message::lookup "" intranet-cvs-integration.No_Cvs_Logs_Available "No Cvs_Logs Available"] %>
 	    </td>
 	</tr>
 </if>
@@ -37,7 +37,7 @@
 	<tr class="rowodd">
 	    <td colspan=2 align=right>
 		<select name=action>
-			<option value=del_cvs_logs><%= [lang::message::lookup "" intranet-cvs-logs.Delete_Cvs_Logs "Delete Cvs_Logs"] %></option>
+			<option value=del_cvs_logs><%= [lang::message::lookup "" intranet-cvs-integration.Delete_Cvs_Logs "Delete Cvs_Logs"] %></option>
 		</select>	
 		<input type=submit value=Apply>
 	    </td>
