@@ -1,17 +1,19 @@
-
-	<table cellspacing="1" cellpadding="3">
-	  <form action="/intranet-cvs-integration/action" method=POST>
-	  <%= [export_form_vars return_url] %>
+  <form action="/intranet-cvs-integration/action" method=POST>
+	<%= [export_form_vars return_url] %>
+	<table class="table_list_page"> 
+	  <thead>
 	  <tr class="rowtitle">
-	    <th>&nbsp;</td>
-	    <th><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Project "Repository"] %></th>
-	    <th><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Filename "Filename"] %></th>
-	    <th><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Revision "Rev"] %></th>
-	    <th><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Author "Author"] %></th>
-	    <th><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Add_Del "Add/Del"] %></th>
-	    <th><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Note "Note"] %></th>
-	    <th><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_User "User"] %></th>
+	    <td>&nbsp;</td>
+	    <td><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Project "Repository"] %></td>
+	    <td><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Filename "Filename"] %></td>
+	    <td><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Revision "Rev"] %></td>
+	    <td><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Author "Author"] %></td>
+	    <td><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Add_Del "Add/Del"] %></td>
+	    <td><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_Note "Note"] %></td>
+	    <td><%= [lang::message::lookup "" intranet-cvs-integration.Cvs_Logs_User "User"] %></td>
 	  </tr>
+	  </thead>
+	  <tbody>
 	  <multiple name="cvs_logs">
 	    <if @cvs_logs.rownum@ odd><tr class="roweven"></if>
 	    <else><tr class="rowodd"></else>
@@ -33,7 +35,8 @@
 	    </td>
 	</tr>
 </if>
-
+	</tbody>
+	<tfoot>
 	<tr class="rowodd">
 	    <td colspan=2 align=right>
 		<select name=action>
@@ -42,7 +45,6 @@
 		<input type=submit value=Apply>
 	    </td>
 	</tr>
-
-	</form>
+	</tfoot>
 	</table>
-	
+	</form>	
