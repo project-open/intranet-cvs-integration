@@ -1,9 +1,9 @@
 <master>
-<property name="title">@page_title@</property>
-<property name="context">@context_bar@</property>
+<property name="doc(title)">@page_title;literal@</property>
+<property name="context">@context_bar;literal@</property>
 
 <table width="100%">
-<tr valign=top>
+<tr valign="top">
 <td width=200>
 	<H2><nobr>@page_title@</nobr></h2>
 </td>

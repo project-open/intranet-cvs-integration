@@ -17,7 +17,7 @@
 	  <multiple name="cvs_logs">
 	    <if @cvs_logs.rownum@ odd><tr class="roweven"></if>
 	    <else><tr class="rowodd"></else>
-		<td><input type=checkbox name=cvs_log.@cvs_line_id@></td>
+		<td><input type="checkbox" name="cvs_log.@cvs_line_id@"></td>
 		<td>@cvs_logs.cvs_repo@</td>
 		<td>@cvs_logs.cvs_filename@</td>
 		<td>@cvs_logs.cvs_revision@</td>
@@ -30,7 +30,7 @@
 
 <if @cvs_logs:rowcount@ eq 0>
 	<tr class="rowodd">
-	    <td colspan=2>
+	    <td colspan="2">
 		<%= [lang::message::lookup "" intranet-cvs-integration.No_Cvs_Logs_Available "No Cvs_Logs Available"] %>
 	    </td>
 	</tr>
@@ -38,11 +38,11 @@
 	</tbody>
 	<tfoot>
 	<tr class="rowodd">
-	    <td colspan=2 align=right>
+	    <td colspan="2" align="right">
 		<select name=action>
 			<option value=del_cvs_logs><%= [lang::message::lookup "" intranet-cvs-integration.Delete_Cvs_Logs "Delete Cvs_Logs"] %></option>
 		</select>	
-		<input type=submit value=Apply>
+		<input type="submit" value="Apply">
 	    </td>
 	</tr>
 	</tfoot>
