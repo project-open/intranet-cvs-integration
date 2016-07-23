@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="intranet-cvs-integration" locale="de_DE" charset="ISO-8859-1">
+
+  <msg key="CVS_Integration">CVS Integration</msg>
+  <msg key="Cvs_Logs_Add_Del">Neu/Gelöscht</msg>
+  <msg key="Cvs_Logs_Author">Autor</msg>
+  <msg key="Cvs_Logs_Filename">Datei</msg>
+  <msg key="Cvs_Logs_Note">Notiz</msg>
+  <msg key="Cvs_Logs_Project">Projekt</msg>
+  <msg key="Cvs_Logs_Revision">Revision</msg>
+  <msg key="Cvs_Logs_User">Benutzer</msg>
+  <msg key="Delete_Cvs_Logs">CVS Einträge löschen</msg>
+  <msg key="No_Cvs_Logs_Available">Keine CVS Einträge vorhanden</msg>
+  <msg key="Project_CVS_Logs">CVS Einträge</msg>
+</message_catalog>
