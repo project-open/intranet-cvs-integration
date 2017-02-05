@@ -41,6 +41,26 @@ create table im_cvs_logs (
 );
 
 
+create or replace function inline_0 ()
+returns integer as $body$
+declare
+	v_count		 integer;
+begin
+	select count(*) into v_count from user_tab_columns
+	where lower(table_name) = 'im_conf_items' and lower(column_name) = 'cvs_repository';
+	IF v_count > 0 THEN return 1; END IF;
+
+	alter table im_conf_items add cvs_repository text;
+
+	return 0;
+end;$body$ language 'plpgsql';
+select inline_0 ();
+drop function inline_0 ();
+
+SELECT im_dynfield_attribute_new ('im_conf_item', 'cvs_repository', 'CVS Repository', 'textbox_medium', 'string', 'f');
+
+
+
 
 -----------------------------------------------------------
 -- DynFields
@@ -151,6 +171,13 @@ drop function inline_0 ();
 
 
 
+update im_menus
+set url = '/intranet-csv-import/index?object_type=im_project'
+where label = 'projects_admin_csv_import';
+
+
+
+
 
 -----------------------------------------------------------
 -- Plugin Components
@@ -227,3 +254,5 @@ SELECT im_component_plugin__new (
 update im_component_plugins 
 set title_tcl = 'lang::message::lookup "" intranet-cvs-integration.CVS_Logs "CVS Logs"'
 where plugin_name = 'Conf Item CVS Logs';
+
+
