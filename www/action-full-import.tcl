@@ -99,7 +99,7 @@ foreach repo_id $repository_id {
     "
 
     set cvs_read [acs_root_dir]/packages/intranet-cvs-integration/perl/cvs_read.pl
-    set command [list exec $cvs_read -cvsdir :pserver:${cvs_user}:${cvs_password}@${cvs_hostname}:${cvs_path} -rlog $repo_name]
+    set command [list im_exec $cvs_read -cvsdir :pserver:${cvs_user}:${cvs_password}@${cvs_hostname}:${cvs_path} -rlog $repo_name]
 
     ns_write "</ul>\n"
     ns_write "<h3>Importing from $cvs_repository</h3>\n"
