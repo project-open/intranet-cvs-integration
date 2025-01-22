@@ -33,7 +33,7 @@ set context [list [list "$return_url" "CVS Repositories"] $title]
 # ******************************************************
 
 # Write out HTTP header, considering CSV/MS-Excel formatting
-im_report_write_http_headers -output_format html
+im_report_write_http_headers -output_format html -report_name "action-full-import"
 
 ns_write "
 	[im_header]
